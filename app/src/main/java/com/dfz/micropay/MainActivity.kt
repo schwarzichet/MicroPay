@@ -13,14 +13,18 @@ import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import com.dfz.micropay.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
+class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback, TradeRecordFragment.OnListFragmentInteractionListener {
+    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 
-    private lateinit var mNfcAdapter: NfcAdapter
+    lateinit var mNfcAdapter: NfcAdapter
     val MESSAGE_SENT = 1
 
     companion object {
@@ -48,7 +52,8 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
             companion object {
                 fun newInstance(num: Int): Fragment {
                     return when (num) {
-                        0 -> LogInFragment()
+                        0 -> LogInFragment.newInstance("test1", "test2")
+                        2 -> TradeRecordFragment.newInstance(1)
                         else -> {
                             val f = MyFragment()
                             val args = Bundle()
@@ -96,7 +101,6 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
             return
         } else {
             Toast.makeText(this, "NFC is available", Toast.LENGTH_LONG).show()
-
         }
         mNfcAdapter.setNdefPushMessageCallback(this, this)
         fab.setOnClickListener { view ->
@@ -126,7 +130,6 @@ class MainActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallback {
 
     override fun createNdefMessage(p0: NfcEvent?): NdefMessage {
         val text = ("Beam me up, Android\n\n" + "Beam Time: " + System.currentTimeMillis())
-
 
         return NdefMessage(arrayOf(
                 createMime("application/vnd.micropay.dfz", text.toByteArray())
