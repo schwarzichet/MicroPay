@@ -3,7 +3,11 @@
     package="com.dfz.micropay">
 
     <uses-permission android:name="android.permission.NFC" />
-    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,12 +21,35 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="application/vnd.micropay.dfz"/>
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TransferActivity"
+            android:launchMode="singleInstance">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.nfc.action.NDEF_DISCOVERED" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<data android:mimeType="pay/vnd.micropay.dfz" />-->
+            <!--</intent-filter>-->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dfz.micropay.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ReceiveActivity"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="pay/vnd.micropay.dfz" />
+            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dfz.micropay.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>
