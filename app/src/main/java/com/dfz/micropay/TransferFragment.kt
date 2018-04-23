@@ -11,7 +11,13 @@ import kotlinx.android.synthetic.main.fragment_transfer.*
 
 
 class TransferFragment : Fragment() {
-
+    private var username: String? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            username = it.getString("username")
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -22,10 +28,12 @@ class TransferFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         trans_button.setOnClickListener({
             val moneyAmount = money.text.toString()
+            val password = transferPasswordTextView.text.toString()
             if (!moneyAmount.isEmpty()) {
                 val intent = Intent(activity, TransferActivity::class.java)
-//                Toast.makeText(activity, "please input money$moneyAmount", Toast.LENGTH_SHORT).show()
                 intent.putExtra("money", moneyAmount)
+                intent.putExtra("username", username)
+                intent.putExtra("payerPassword", password)
                 startActivity(intent)
             } else {
                 Toast.makeText(activity, "please input money", Toast.LENGTH_SHORT).show()
@@ -35,6 +43,11 @@ class TransferFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = TransferFragment().apply {}
+        fun newInstance(name: String) =
+                TransferFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("username", name)
+                    }
+                }
     }
 }

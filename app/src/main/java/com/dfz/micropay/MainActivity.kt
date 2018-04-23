@@ -1,23 +1,29 @@
 package com.dfz.micropay
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.fragment_test.*
 
 
 class MainActivity : AppCompatActivity() {
+    override fun onDestroy() {
+        super.onDestroy()
+        TcpClient.instance.stopClient()
+    }
 
     companion object {
+        lateinit var username: String
+        lateinit var logInPassword: String
         const val NUM_ITEMS = 4
 
         class MyPageAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
+
             private val tabTitles = arrayOf("我", "转账", "收款", "查询")
 
             override fun getPageTitle(position: Int): CharSequence? {
@@ -25,54 +31,31 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun getItem(position: Int): Fragment {
+                val args = Bundle()
+                args.putString("username", username)
+                args.putString("password", logInPassword)
                 return when (position) {
-                    0 -> LogInFragment.newInstance()
-                    1 -> TransferFragment.newInstance()
-                    2 -> ReceiveFragment.newInstance()
-                    3 -> TradeRecordFragment.newInstance()
+                    0 -> {
+                        val f = MyFragment()
+                        f.arguments = args
+                        f
+                    }
+                    1 -> TransferFragment.newInstance(username)
+                    2 -> ReceiveFragment.newInstance(username)
+                    3 -> TradeRecordFragment.newInstance(username)
                     else -> {
                         val f = MyFragment()
-                        val args = Bundle()
-                        args.putInt("num", position)
                         f.arguments = args
                         f
                     }
                 }
             }
-
             override fun getCount(): Int {
                 return NUM_ITEMS
             }
         }
-
-        class MyFragment : Fragment() {
-            private var mNum: Int = 0
-
-
-            override fun onCreate(savedInstanceState: Bundle?) {
-                super.onCreate(savedInstanceState)
-
-                mNum = if (arguments != null) arguments!!.getInt("num") else 1
-
-
-            }
-
-            override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-                super.onCreateView(inflater, container, savedInstanceState)
-
-
-                return inflater.inflate(R.layout.fragment_test, container, false)
-            }
-
-            override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-                super.onViewCreated(view, savedInstanceState)
-                button.setOnClickListener {
-                    val intent = Intent(activity, ReceiveActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-        }
     }
+
 
     private lateinit var mPageAdapter: MyPageAdapter
 
@@ -84,6 +67,10 @@ class MainActivity : AppCompatActivity() {
         mPageAdapter = MyPageAdapter(supportFragmentManager)
 
         pager.adapter = mPageAdapter
+
+        username = intent.getStringExtra("username")
+        logInPassword = intent.getStringExtra("LogInPassword")
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
