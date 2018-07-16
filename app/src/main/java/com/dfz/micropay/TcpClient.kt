@@ -12,17 +12,15 @@ class TcpClient private constructor() {
         const val SERVER_IP = "47.100.162.109" //server IP address
         const val SERVER_PORT = 8186
         private const val TAG = "TcpClient"
-        // message to send to the server
         private var mServerMessage: String? = null
-        // sends message received notifications
 
         val instance: TcpClient by lazy { TcpClient() }
 
     }
 
 
-    var connected: Boolean = false
-    lateinit var socket: Socket
+    private var connected: Boolean = false
+    private lateinit var socket: Socket
     //    var mMessageListener: OnMessageReceived? = null
     // while this is true, the server will continue running
     private var mRun = false
@@ -48,25 +46,18 @@ class TcpClient private constructor() {
             mBufferOut!!.flush()
             mBufferOut!!.close()
         }
-//        mMessageListener = null
         mBufferIn = null
         mBufferOut = null
         mServerMessage = null
         connected = false
     }
 
-    interface OnMessageReceived {
-        fun messageReceived(message: String)
-    }
+
 
 
     fun read(): String? {
         while (mRun) {
             mServerMessage = mBufferIn!!.readLine()
-//            if (mServerMessage != null && mMessageListener != null) {
-////                mMessageListener!!.messageReceived(mServerMessage!!)
-////                break
-//            }
             if (mServerMessage != null) {
                 return mServerMessage
             }

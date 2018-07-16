@@ -10,12 +10,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_receive.*
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ReceiveFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
+
 class ReceiveFragment : Fragment() {
     private var username: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {

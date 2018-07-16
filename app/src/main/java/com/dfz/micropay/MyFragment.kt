@@ -52,14 +52,7 @@ class MyFragment : Fragment() {
     }
 
     private fun updateBalance() {
-        var balanceValue: String?
         if (mTcpClient == null) {
-//            mTcpClient = TcpClient(object : TcpClient.OnMessageReceived {
-//                override fun messageReceived(message: String) {
-//                    Log.d(TAG, "receive tcp data [$message] ")
-//                    balanceValue = message
-//                }
-//            })
             mTcpClient = TcpClient.instance
         }
 

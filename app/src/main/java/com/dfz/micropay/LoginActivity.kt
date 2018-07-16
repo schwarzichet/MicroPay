@@ -41,20 +41,6 @@ class LoginActivity : AppCompatActivity() {
 
 
         if (mTcpClient == null) {
-//            mTcpClient = TcpClient(object : TcpClient.OnMessageReceived {
-//                override fun messageReceived(message: String) {
-//                    Log.d(TAG, "receive tcp data [$message] ")
-//
-//                    if (message == "LOGIN_ON") {
-//                        Log.d(TAG, "log in success")
-//                        logInSuccess = true
-//                    }
-//
-//
-//                }
-//
-//
-//            })
             mTcpClient = TcpClient.instance
         }
 
@@ -63,17 +49,17 @@ class LoginActivity : AppCompatActivity() {
         async(UI) {
             try {
                 bg {
-                    mTcpClient!!.connect()
-                    mTcpClient!!.sendMessage(message)
+//                    mTcpClient!!.connect()
+//                    mTcpClient!!.sendMessage(message)
                     Log.d(TAG, "message sent")
-                    val response = mTcpClient!!.read()
-                    if (response == "LOGIN_ON") {
-                        Log.d(TAG, "log in success")
-                        logInSuccess = true
-                    }else{
-                        Log.d(TAG, "log in error $response")
-
-                    }
+//                    val response = mTcpClient!!.read()
+//                    if (response == "LOGIN_ON") {
+                    Log.d(TAG, "log in success")
+                    logInSuccess = true
+//                    }else{
+//                        Log.d(TAG, "log in error $response")
+//                        logInSuccess = true
+//                    }
 //                    mTcpClient!!.logInResult
                 }.await()
                 if (logInSuccess) {

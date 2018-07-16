@@ -72,17 +72,6 @@ class ReceiveActivity : AppCompatActivity() {
         showProgress(true)
 
         if (mTcpClient == null) {
-//            mTcpClient = TcpClient(object : TcpClient.OnMessageReceived {
-//                override fun messageReceived(message: String) {
-//                    Log.d(TAG, "receive tcp data $message ")
-//                    //                if (result) {
-////                    Toast.makeText(this@ReceiveActivity, "transfer success", Toast.LENGTH_SHORT).show()
-////
-////                } else {
-////                    Toast.makeText(this@ReceiveActivity, "transfer fail", Toast.LENGTH_SHORT).show()
-////                }
-//                }
-//            })
             mTcpClient = TcpClient.instance
         }
 
@@ -94,7 +83,7 @@ class ReceiveActivity : AppCompatActivity() {
                     mTcpClient!!.sendMessage(transferMessage)
                     Log.d(TAG, "message sent")
                     val response = mTcpClient!!.read()
-
+                    mTcpClient!!.read()
                     response
 //                    mTcpClient!!.logInResult
                 }.await()
@@ -105,9 +94,9 @@ class ReceiveActivity : AppCompatActivity() {
                         receive_textView.text = "wrong password"
                     }
                     "TRANSFER_SUCCESS" -> {
-                        mTcpClient!!.read()
+//                        mTcpClient!!.read()
                         Toast.makeText(this@ReceiveActivity, "success", Toast.LENGTH_SHORT).show()
-                        receive_textView.text = "get ${username} from ${payer}"
+                        receive_textView.text = "success! get ${money} yuan from ${payer}"
                     }
 
                     else -> {

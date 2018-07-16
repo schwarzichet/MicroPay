@@ -12,7 +12,7 @@
     <string name="receive_money">receive</string>
     <string name="account">account</string>
     <string name="username">username</string>
-    <string name="title_activity_login">MicroPay Sign in</string>
+    <string name="title_activity_login">MicroPay</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

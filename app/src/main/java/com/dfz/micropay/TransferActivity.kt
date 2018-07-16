@@ -19,7 +19,7 @@ class TransferActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallba
     private var mTcpClient = TcpClient.instance
     private var password: String? = null
 
-    lateinit var mNfcAdapter: NfcAdapter
+    private var mNfcAdapter: NfcAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transfer)
@@ -38,7 +38,7 @@ class TransferActivity : AppCompatActivity(), NfcAdapter.CreateNdefMessageCallba
         } else {
             Toast.makeText(this, "NFC is available", Toast.LENGTH_LONG).show()
         }
-        mNfcAdapter.setNdefPushMessageCallback(this, this)
+        mNfcAdapter!!.setNdefPushMessageCallback(this, this)
         transferTextView.text = "Transfering..."
         async(UI){
             bg{

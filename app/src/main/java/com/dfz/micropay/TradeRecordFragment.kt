@@ -48,8 +48,8 @@ class TradeRecordFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     mTcpClient!!.sendMessage(message)
                     Log.d(TAG, "message sent")
 
-                    val message = mTcpClient!!.read()
-                    val responseArray = message!!.split("%")
+                    val response = mTcpClient!!.read()
+                    val responseArray = response!!.split("%")
                     val recordArray: MutableList<Record> = ArrayList()
                     if (responseArray[0] == "RECORD_REPLY") {
                         var i = 1
@@ -86,10 +86,7 @@ class TradeRecordFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_traderecord_list, container, false)
-
-
-        return view
+        return inflater.inflate(R.layout.fragment_traderecord_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -114,13 +111,8 @@ class TradeRecordFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     companion object {
-        private const val columnCount = 1
 
         private const val TAG = "TradeRecordFragment"
-
-
-        private const val ARG_COLUMN_COUNT = "column-count"
-
 
         @JvmStatic
         fun newInstance(name: String) = TradeRecordFragment().apply {
@@ -143,12 +135,6 @@ class TradeRecordFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
             override fun onBindViewHolder(holder: ViewHolder, position: Int) {
                 val item = mValues[position]
-//                holder.mIdView.text = item.id
-//                holder.mContentView.text = item.content
-//                holder.mIdView.text = position.toString()
-//                holder.mContentView.text = "${item.time} ${item.payer}->${item.payee} ${item.money}"
-//                holder.mIdView.text = item.time
-//                holder.mContentView.text = "${item.payer}->${item.payee} ${item.money}"
                 holder.timeView.text = item.time
                 holder.objectView.text = if (item.payer==username) item.payee else item.payer
                 holder.moneyView.text = if (item.payer==username) "-${item.money}" else "+${item.money}"
